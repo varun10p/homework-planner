@@ -3,13 +3,13 @@ const router = express.Router();
 
 let Project = require('../models/Project');
 let User = require('../models/User');
-
+//Sends user object to the page
 router.get('/add', ensureAuthenticated, function (req, res) {
   res.render('add_project', {
     user: req.user
   });
 });
-
+//Adds the data to the database and sends errors
 router.post('/add', function (req, res) {
 
   let errors = [];
@@ -32,7 +32,7 @@ router.post('/add', function (req, res) {
 
 
 
-
+//Redirects back to the list of projects
     project.save(function (err) {
       if (err) {
         console.log(err);
@@ -48,7 +48,7 @@ router.post('/add', function (req, res) {
     });
   }
 });
-
+//Gets all the appropriate project objects from the database
 router.get('/list', ensureAuthenticated, function (req, res) {
   Project.find({}, function (err, projects) {
     if (err) {
@@ -63,7 +63,7 @@ router.get('/list', ensureAuthenticated, function (req, res) {
     }
   });
 });
-
+//Edit route
 router.get('/edit/:id', ensureAuthenticated, function (req, res) {
   Project.findById(req.params.id, function (err, project) {
     if (project.creator != req.user._id) {
@@ -95,7 +95,7 @@ router.post('/edit/:id', function (req, res) {
     }
   });
 });
-
+// Deletes the selected project
 router.post('/delete/:id', function (req, res) {
   if (!req.user._id) {
     res.status(500).send();
@@ -116,7 +116,7 @@ router.post('/delete/:id', function (req, res) {
     }
   });
 });
-
+//Add task post route
 router.post('/addtask/:id', function (req, res) {
   const task = { title, description, recipient } = req.body;
   let query = { _id: req.params.id };
@@ -144,6 +144,7 @@ router.post('/addtask/:id', function (req, res) {
 
 });
 
+//Views a single project
 router.get('/:id', ensureAuthenticated, function (req, res) {
   Project.findById(req.params.id, function (err, project) {
     res.render('project', {
@@ -153,7 +154,7 @@ router.get('/:id', ensureAuthenticated, function (req, res) {
     });
   });
 });
-
+//Checks to see if user is logged in, otherwise it sends an error
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
