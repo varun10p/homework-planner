@@ -24,11 +24,7 @@ router.post('/register', (req, res) => {
   }
 
   if (password != password2) {
-    errors.push({ msg: 'Passwords do not match' });
-  }
-
-  if (password.length < 6) {
-    errors.push({ msg: 'Password must be at least 6 characters' });
+    errors.push({ msg: 'Passwords dont match' });
   }
 
   if (errors.length > 0) {
@@ -52,6 +48,7 @@ router.post('/register', (req, res) => {
           password2
         });
       } else {
+          //Uses the previous Schema
         const newUser = new User({
           name,
           email,
@@ -68,7 +65,7 @@ router.post('/register', (req, res) => {
               .then(user => {
                 req.flash(
                   'success_msg',
-                  'You are now registered and can log in'
+                  'You are registered and you may log in'
                 );
                 res.redirect('/users/login');
               })
