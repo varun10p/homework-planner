@@ -1,3 +1,5 @@
+//Require the dependencices from package.json
+
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
@@ -12,7 +14,7 @@ require('./config/passport')(passport);
 
 const db = require('./config/keys').MongoURI;
 
-
+//Access mongodb database
 mongoose.connect(db,{ useNewUrlParser: true }).then(() => console.log('DB connected')).catch(err => console.log(err));
 
 app.use(expressLayouts);
@@ -20,7 +22,7 @@ app.set('view engine', 'ejs');
 
 
 app.use(express.urlencoded({ extended: true }));
-
+//Create a  session
 app.use(
   session({
     secret: 'secret',
@@ -34,7 +36,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(flash());
-
+//Redirection to messages
 app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
@@ -42,11 +44,11 @@ app.use(function(req, res, next) {
   next();
 });
 
-
+//Models and Schemas
 app.use('/', require('./routes/index.js'));
 app.use('/users', require('./routes/users.js'));
 app.use('/projects', require('./routes/projects') );
-
+//Open at localhost:5000
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
