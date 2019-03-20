@@ -3,18 +3,18 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
     
-// Load User model
+//Require the Schemas
 const User = require('../models/User');
 const Project = require('../models/Project');
 
-// Login Page
+// Login route
 router.get('/login', (req, res) => res.render('login'));
 
-// Register Page
+// Register route
 router.get('/register', (req, res) => res.render('register'));
 
 
-// Register
+// Registration and Validation
 router.post('/register', (req, res) => {
   const { name, email, password, password2 } = req.body;
   let errors = [];
@@ -40,6 +40,7 @@ router.post('/register', (req, res) => {
       password2
     });
   } else {
+      //Query the database for the  email
     User.findOne({ email: email }).then(user => {
       if (user) {
         errors.push({ msg: 'Email already exists' });
@@ -56,12 +57,13 @@ router.post('/register', (req, res) => {
           email,
           password
         });
-
+        //Hash the password of the user
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
             newUser
+                //Saves the user to the database
               .save()
               .then(user => {
                 req.flash(
@@ -78,7 +80,7 @@ router.post('/register', (req, res) => {
   }
 });
 
-// Login
+// Login routes for success and failure
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', {
     successRedirect: '/dashboard',
@@ -87,7 +89,7 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-// Logout
+// Logout redirection
 router.get('/logout', (req, res) => {
   req.logout();
   req.flash('success_msg', 'You are logged out');
