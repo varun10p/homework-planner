@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+//Task object
 const TaskSchema = new mongoose.Schema({
   title: String,
   description: String,
@@ -9,7 +9,7 @@ const TaskSchema = new mongoose.Schema({
 
 });
 
-
+//Project object
 const ProjectSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -35,7 +35,7 @@ const ProjectSchema = new mongoose.Schema({
 });
 
 
- 
+//Only exports the project although the task schema is still saved.
 const Project = mongoose.model('Project', ProjectSchema);
 
 module.exports = Project;
