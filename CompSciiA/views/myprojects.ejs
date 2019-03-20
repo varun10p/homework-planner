@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">DevManagePro</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/dashboard">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/projects/list">My Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Info</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <a href="/users/logout" class="btn btn-secondary">Logout (<%=user.name%>)</a>
+    </form>
+  </div>
+</nav>
+
+<h1 class="mt-4">My Projects</h1>
+<% include ./partials/messages %>
+<p>
+  <a href="/projects/add" class="btn btn-success">Create Project</a>
+</p>
+
+<ul>
+  <%projects.forEach(function(project){%>
+  <%if(project.creator == user._id){%>
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class="display-3"><a href="/projects/<%=project._id %>"><%=project.title%></a></h1>
+      <p> Tasks:</p>
+      <p class="lead"><%=project.description%></p>
+      <%for (i = 0; i < project.projecttasks.length; i++) {%>
+      <p><b>Title:</b> <%=project.projecttasks[i].title%> <b>Description:</b> <%=project.projecttasks[i].description%>
+        <b>Recipient:</b> <a href="mailto:<%=project.projecttasks[i].recipient%>"
+          target="_blank"><%=project.projecttasks[i].recipient%></a></p>
+      <%}%>
+      <hr class="my-4">
+      <p> Due Date: <%=project.duedate%></p>
+      <a href="/projects/edit/<%=project._id %>" class="btn btn-info">Edit</a>
+    </div>
+  </div>
+
+  <%}%>
+  <%});%>
+</ul>

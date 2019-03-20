@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">DevManagePro</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/dashboard">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/projects/list">My Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">My Tasks</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Info</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <a href="/users/logout" class="btn btn-secondary">Logout (<%=user.name%>)</a>
+    </form>
+  </div>
+</nav>
+
+<h1 class="mt-4">Create Project</h1>
+
+<% include ./partials/messages %>
+
+
+<form action="/projects/add" method="POST">
+    <div class="form-group">
+      <label for="name">Title</label>
+      <input type="text" id="title" name="title" class="form-control" placeholder="Name Project" />
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" id="description" name="description" class="form-control"
+        placeholder="Give a Description" />
+    </div>
+    <div class="form-group">
+      <label for="duedate">Due Date</label>
+      <input type="text" id="duedate" name="duedate" class="form-control" placeholder="Example: 3/21/2019" />
+    </div>
+    <button type="submit" class="btn btn-success">Create</button>
+  </form>
