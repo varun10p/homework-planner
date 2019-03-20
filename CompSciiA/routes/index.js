@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+//Makes sure that the user is logged in
 const { ensureAuthenticated } = require('../config/auth');
 router.get('/', (req, res) => res.render('welcome'));
 router.get('/dashboard', ensureAuthenticated, (req, res) =>
