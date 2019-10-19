@@ -49,6 +49,6 @@ app.use('/', require('./routes/index.js'));
 app.use('/users', require('./routes/users.js'));
 app.use('/projects', require('./routes/projects') );
 //Open at localhost:5000
-const PORT = process.env.PORT || 5000;
+const PORT = 3000;
 
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
